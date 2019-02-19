@@ -1,0 +1,11 @@
+# Compiled class file
+*.class
+
+# Log file
+*.log
+
+gradle/
+idea/workspace.xml
+
+build/
+

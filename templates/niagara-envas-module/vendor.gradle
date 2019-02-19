@@ -1,0 +1,7 @@
+/*
+ * Copyright 2019 Neopsis, All Rights Reserved.
+ */
+
+/* Vendor Configuration File */
+group = "{{moduleGroup}}"
+version = "{{moduleVersion}}"

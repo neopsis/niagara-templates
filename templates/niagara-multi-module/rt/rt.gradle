@@ -1,0 +1,65 @@
+/* Module Build File */
+
+description     = "{{moduleDescription}}"
+ext {
+}
+niagaraModule {
+    moduleName = "{{moduleName}}"
+    preferredSymbol = "{{preferredSymbol}}"
+    runtimeProfile = "rt"
+
+    modulePart {
+        name = "{{moduleName}}-ux"
+        runtimeProfile = "ux"
+    }
+
+    modulePart {
+        name = "{{moduleName}}-wb"
+        runtimeProfile = "wb"
+    }
+}
+compileJava {
+    options.compilerArgs = ["-profile", "compact3"]
+}
+sourceSets {
+    main {
+        java {
+            srcDirs = ['src/main/java']
+        }
+    }
+
+    test {
+        java {
+            srcDirs = ['src/test/java']
+        }
+    }
+}
+
+dependencies {
+    compile "Tridium:nre:4.7"
+    compile "Tridium:baja:4.7"
+}
+
+moduleTestJar {
+    from('srcTest') {
+    }
+}
+
+jar {
+
+    from('src/main/resources') {
+        include '*.**'
+    }
+
+    doLast {
+        [gradle.ext.niagara_test_home + '/modules', gradle.ext.niagara_modules].each { dest ->
+            copy {
+                from(project.buildDir.toString() + '/libs')
+                include(baseName + '-' + version + '.jar')
+                rename(baseName + '-' + version + '.jar', baseName + '.jar')
+                into { file(dest) }
+            }
+        }
+    }
+}
+
