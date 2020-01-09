@@ -26,8 +26,8 @@ Neopsis provides two templates:
    ```
    templates {
        mappings {
-           niagara = "https://github.com/neopsis/niagara-templates/releases/download/4.6/niagara-multi-module-template.zip"
-           envas   = "https://github.com/neopsis/niagara-templates/releases/download/4.6/niagara-envas-module-template.zip"
+           niagara = "https://github.com/neopsis/niagara-templates/releases/download/v4.7/niagara-multi-module-template.zip"
+           envas   = "https://github.com/neopsis/niagara-templates/releases/download/v4.7/niagara-envas-module-template.zip"
        }
    }
    ```
