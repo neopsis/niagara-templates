@@ -3,9 +3,9 @@
 
 # Log file
 *.log
-
-gradle/
-idea/workspace.xml
+.gradle/
 
 build/
+.idea/workspace.xml
+
 

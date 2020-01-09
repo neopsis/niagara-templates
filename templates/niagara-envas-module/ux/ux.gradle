@@ -5,7 +5,7 @@ ext {
 }
 niagaraModule {
     moduleName = "{{moduleName}}"
-    preferredSymbol = "${preferredSymbol}"
+    preferredSymbol = "{{preferredSymbol}}"
     runtimeProfile = "ux"
     
 }
