@@ -1,20 +1,24 @@
 @Grab(group="uk.co.cacoethes", module="groovy-handlebars-engine", version="0.2")
 import uk.co.cacoethes.handlebars.HandlebarsTemplateEngine
+import uk.co.cacoethes.util.NameType
 
 registerDefaultEngine new HandlebarsTemplateEngine()
 
 def params = [:]
 
-params.moduleName    = ask("Module name [niagara]: ", "niagara", "moduleName")
-params.moduleVersion = ask("Module Version [4.0.0]: ", "4.0.0", "moduleVersion")
-params.moduleGroup   = ask("Vendor [Neopsis]: ", "Neopsis", "moduleGroup")
-params.preferredSymbol = ask("Preferred symbol [neo] : ", "neo", "preferredSymbol")
+if (projectDir.name =~ /\-/) {
+    params.projectClassName = transformText(projectDir.name, from: NameType.HYPHENATED, to: NameType.PROPERTY)
+} else {
+    params.projectClassName = transformText(projectDir.name, from: NameType.PROPERTY, to: NameType.CAMEL_CASE)
+}
 
-processTemplates 'vendor.gradle', params
-processTemplates 'settings.gradle', params
-processTemplates "rt/rt.gradle", params
-processTemplates "ux/ux.gradle", params
-processTemplates "wb/wb.gradle", params
+params.projectName = transformText(params.projectClassName, from: NameType.CAMEL_CASE, to: NameType.PROPERTY)
+
+params.moduleName         = ask("Module name [" + params.projectName + "]: ", params.projectName, "moduleName")
+params.moduleDescription  = ask("Module description [Envas demo module]: ", "Envas demo module", "moduleDescription")
+params.moduleGroup        = ask("Vendor [Neopsis]: ", "Neopsis", "moduleGroup")
+params.moduleVersion      = ask("Module Version [4.7.0]: ", "4.7.0", "moduleVersion")
+params.preferredSymbol    = ask("Preferred symbol [neo] : ", "neo", "preferredSymbol")
 
 File rtDir = new File(projectDir, 'rt')
 File uxDir = new File(projectDir, 'ux')
@@ -22,6 +26,14 @@ File wbDir = new File(projectDir, 'wb')
 File rtBuild = new File(projectDir, 'rt/rt.gradle')
 File uxBuild = new File(projectDir, 'ux/ux.gradle')
 File wbBuild = new File(projectDir, 'wb/wb.gradle')
+
+processTemplates 'vendor.gradle', params
+processTemplates 'settings.gradle', params
+processTemplates "rt/rt.gradle", params
+processTemplates "ux/ux.gradle", params
+processTemplates "wb/wb.gradle", params
+processTemplates "wb/src/main/java/Demo.java",  params
+processTemplates "wb/src/main/java/BDemo.java", params
 
 rtBuild.renameTo(projectDir.name + "/rt/" + params.moduleName + "-rt.gradle")
 uxBuild.renameTo(projectDir.name + "/ux/" + params.moduleName + "-ux.gradle")

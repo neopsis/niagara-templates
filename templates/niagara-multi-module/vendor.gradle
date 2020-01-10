@@ -3,5 +3,5 @@
  */
 
 /* Vendor Configuration File */
-group = "{{moduleGroup}}"
+group   = "{{moduleGroup}}"
 version = "{{moduleVersion}}"
