@@ -15,7 +15,7 @@ if (projectDir.name =~ /\-/) {
 params.projectName = transformText(params.projectClassName, from: NameType.CAMEL_CASE, to: NameType.PROPERTY)
 
 params.moduleName         = ask("Module name [" + params.projectName + "]: ", params.projectName, "moduleName")
-params.moduleDescription  = ask("Module description [Envas demo module]: ", "Envas demo module", "moduleDescription")
+params.moduleDescription  = ask("Module description [Niagara module]: ", "Niagara module", "moduleDescription")
 params.moduleGroup        = ask("Vendor [Neopsis]: ", "Neopsis", "moduleGroup")
 params.moduleVersion      = ask("Module Version [4.7.0]: ", "4.7.0", "moduleVersion")
 params.preferredSymbol    = ask("Preferred symbol [neo] : ", "neo", "preferredSymbol")
