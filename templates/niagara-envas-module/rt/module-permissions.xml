@@ -1,6 +1,15 @@
 <permissions>
   <niagara-permission-groups type="all">
-    <!-- Insert any global permissions here. -->
+    <niagara-permission-groups type="all">
+      <req-permission>
+        <name>LOGGING</name>
+        <purposeKey>We need to allow logging.</purposeKey>
+      </req-permission>
+      <req-permission>
+        <name>REFLECTION</name>
+        <purposeKey>Popups need reflection.</purposeKey>
+      </req-permission>
+    </niagara-permission-groups>
   </niagara-permission-groups>
   <niagara-permission-groups type="workbench">
     <!-- Insert any workbench specific permissions here. -->

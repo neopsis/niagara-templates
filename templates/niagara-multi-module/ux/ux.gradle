@@ -43,15 +43,16 @@ jar {
         include '*.**'
     }
 
+    if ( gradle.ext.target == "P") {
+        exclude 'hotswap-agent.properties'
+        exclude 'rebel.xml'
+    }
+
     doLast {
-        [gradle.ext.niagara_test_home + '/modules', gradle.ext.niagara_modules].each { dest ->
-            copy {
-                from(project.buildDir.toString() + '/libs')
-                include(baseName + '-' + version + '.jar')
-                rename(baseName + '-' + version + '.jar', baseName + '.jar')
-                into { file(dest) }
-            }
+
+        copy {
+            from(project.buildDir.toString() + '/libs')
+            into { file("${gradle.ext.niagara_modules}") }
         }
     }
 }
-

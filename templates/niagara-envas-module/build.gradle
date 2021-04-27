@@ -9,8 +9,6 @@ plugins {
   id 'com.tridium.niagara-rjs' apply false
 }
 
-import com.tridium.gradle.plugins.niagara.task.RunNiagaraTestTask
-
 def getGradleProperty(String propName) {
   if (gradle.hasProperty(propName)) {
     gradle.getProperty(propName)
@@ -21,8 +19,8 @@ def getGradleProperty(String propName) {
   }
 }
 
-ext.niagara_home = getGradleProperty('niagara_home')
-ext.niagara_dev_home = getGradleProperty('niagara_dev_home')
+ext.niagara_home      = getGradleProperty('niagara_home')
+ext.niagara_dev_home  = getGradleProperty('niagara_dev_home')
 ext.niagara_user_home = getGradleProperty('niagara_user_home')
 
 gradle.beforeProject { p ->
@@ -32,16 +30,49 @@ gradle.beforeProject { p ->
       apply from: vendorSettings
     }
     apply from: "${rootDir}/gradle/niagara.gradle"
-    tasks.withType(RunNiagaraTestTask) { RunNiagaraTestTask task ->
-      task.groups = []
-    }
   }
 }
 
-subprojects { Project p ->
-  p.pluginManager.withPlugin('com.tridium.niagara-module') {
-    p.niagaraModule {
-      certAlias = "neopsis-code-sign"
-    }
+task buildZip(type: Zip) {
+
+  group 'niagara'
+
+  def baseName       = rootProject.name
+  def version        = rootProject.version
+  def outputFile     = file("${gradle.ext.niagara_modules}/release.txt")
+  def envasVersion   = '0.9.13'
+  def commonsVersion = '4.0.3'
+
+
+  dependsOn baseName + '-rt:clean'
+  dependsOn baseName + '-ux:clean'
+  dependsOn baseName + '-wb:clean'
+  dependsOn baseName + '-rt:jar'
+  dependsOn baseName + '-ux:jar'
+  dependsOn baseName + '-wb:jar'
+
+  apply from: file("${rootDir}/vendor.gradle")
+
+  outputs.file outputFile
+  outputFile.write  baseName + ": " + version + "\n"
+  outputFile.append "niagara: " + "${gradle.ext.niagara_release}"
+
+
+  from "${gradle.ext.niagara_modules}"
+  include baseName + "-*-" + version + ".jar"
+  include "envas-*-" + envasVersion + ".jar"
+  include "envasCommons-*-" + commonsVersion + ".jar"
+  include "release.txt"
+
+  rename   baseName + '-(.+)-' + version + '.jar',  baseName + '-$1.jar'
+  rename   'envas-(.+)-' + envasVersion + '.jar',  'envas-$1.jar'
+  rename   'envasCommons-(.+)-' + commonsVersion + '.jar',  'envasCommons-$1.jar'
+
+  archiveName    = baseName + '-' + version  + '.zip'
+  destinationDir = file(file("${gradle.ext.niagara_modules}").getParent())
+
+  doLast {
+    outputFile.delete()
   }
+
 }

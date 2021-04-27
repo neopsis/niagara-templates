@@ -1,19 +1,38 @@
 /*
  * Copyright 2019 Neopsis, All Rights Reserved.
  */
-/* Environment Configuration File */
 
-// Change niagara_home and niagara_user_home as needed to point to the
-// correct path to your desired Niagara install and its associated
-// user home
-gradle.ext {
-    niagara_version      = "4.7"
-    niagara_release      = "4.7.109.20"
-    niagara_test_version = "4.8"
-    niagara_test_release = "4.8.0.110"
-    niagara_home         = "C:/Niagara/Niagara-${niagara_release}"
-    niagara_user_home    = "C:/Users/robert/Niagara${niagara_version}/tridium"
-    niagara_dev_home     = "C:/Projects/Envas/Workspace/N4/envasCommons"
-    niagara_test_home    = "C:/Niagara/Niagara-${niagara_test_release}"
-    niagara_modules      = "C:/Niagara/Modules"
-}
+/*
+ * Environment Configuration File
+ *
+ * You should change the location of your global configuration file
+ * Global configuration file example:
+ *
+    // BEGIN OF FILE
+
+    def bld = '0'
+    if (hasProperty('buildVersion')) {
+        bld = buildVersion
+    }
+
+    gradle.ext {
+        // index:                    0              1             2              3
+        niagara_releases      = ["4.7.109.20" , "4.8.0.110" , "4.9.0.198" , "4.10.0.154"]
+
+        niagara_release       = gradle.ext.niagara_releases[Integer.valueOf(bld)]
+        niagara_version_parts = niagara_release.split("\\.")
+        niagara_version       = niagara_version_parts[0] + "." + niagara_version_parts[1]
+        niagara_home          = "C:/Niagara/Niagara-${niagara_release}"
+        niagara_user_home     = "C:/Users/robert/Niagara${niagara_version}/tridium"
+        niagara_dev_home      = "C:/Users/robert/Niagara${niagara_version}/tridium"
+        niagara_modules       = "C:/Niagara/Modules/modules-${niagara_version}"
+        target                = "P"
+    }
+
+    // END OF FILE
+
+ */
+
+gradle.ext.envDir  = "C:\\Niagara\\Development"
+gradle.ext.envFile = "${gradle.ext.envDir}\\environment.gradle"
+apply from: "${gradle.ext.envFile}"
