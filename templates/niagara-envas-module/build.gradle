@@ -38,11 +38,6 @@ task buildZip(type: Zip) {
   group 'niagara'
 
   def baseName       = rootProject.name
-  def version        = rootProject.version
-  def outputFile     = file("${gradle.ext.niagara_modules}/release.txt")
-  def envasVersion   = '0.9.13'
-  def commonsVersion = '4.0.3'
-
 
   dependsOn baseName + '-rt:clean'
   dependsOn baseName + '-ux:clean'
@@ -53,10 +48,14 @@ task buildZip(type: Zip) {
 
   apply from: file("${rootDir}/vendor.gradle")
 
+  def version        = rootProject.version
+  def outputFile     = file("${gradle.ext.niagara_modules}/release.txt")
+  def envasVersion   = '0.9.13'
+  def commonsVersion = '4.0.3'
+
   outputs.file outputFile
   outputFile.write  baseName + ": " + version + "\n"
   outputFile.append "niagara: " + "${gradle.ext.niagara_release}"
-
 
   from "${gradle.ext.niagara_modules}"
   include baseName + "-*-" + version + ".jar"

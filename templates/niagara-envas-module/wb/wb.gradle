@@ -8,6 +8,7 @@ niagaraModule {
     preferredSymbol = "{{preferredSymbol}}"
     moduleName      = "{{moduleName}}"
     runtimeProfile  = "wb"
+    certAlias       = "neopsis-code-sign"
 }
 
 dependencies {
