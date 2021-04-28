@@ -4,9 +4,10 @@ description     = "{{moduleDescription}}"
 ext {
 }
 niagaraModule {
-    moduleName = "{{moduleName}}"
+    moduleName      = "{{moduleName}}"
     preferredSymbol = "{{preferredSymbol}}"
-    runtimeProfile = "rt"
+    runtimeProfile  = "rt"
+    certAlias       = "neopsis-code-sign"
 
     modulePart {
         name = "{{moduleName}}-ux"
